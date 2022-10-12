@@ -56,12 +56,16 @@ export default {
       ],
       DragList:[],
       comMap: new Map(),
-      isDele:false
     };
   },
   beforeDestroy() {
     this.comMap.clear();
   },
+  // watch:{
+  //   DragList(val){
+  //     console.log(val)
+  //   }
+  // },
   methods: {
     addComList({ index, on = {}, props = { comItem: { name: "", id: 0 } } }){
       const {
@@ -87,7 +91,7 @@ export default {
             );
           }
           this.$refs.dragList[index].appendChild(com.$el);
-          this.comMap.set(id, true);
+          this.comMap.set(id,true);
         } else {
           return;
         }
@@ -100,15 +104,16 @@ export default {
         this.DragList.splice(index, 1);
       }
     },
-    handleCloneDog(item) {
-      return {
-        ...item,
-        id: Math.random(),
-      };
+    handleCloneDog(com) {
+      if(!this.DragList.find(i=>{return i.name === com.name})){
+        return{
+          ...com,
+          id:Math.random()
+        }
+      }else{
+        return
+      }
     },
-    dele(){
-      this.isDele = !this.isDele
-    }
   }
 }
 </script>
